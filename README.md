@@ -50,3 +50,4 @@ After the provider files have been downloaded, add a reference in your csproj fi
 ## Resources
 
 - [Exploring CDK for Terraform for .NET](https://scottie.is/writing/cdktf-alpha-csharp-infrastructure/)
+- [GitHub Provider - Terraform Docs](https://registry.terraform.io/providers/integrations/github/latest/docs)
