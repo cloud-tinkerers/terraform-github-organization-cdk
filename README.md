@@ -1,5 +1,6 @@
 - [terraform-github-organization-cdk](#terraform-github-organization-cdk)
   - [Getting Started](#getting-started)
+  - [Github Provider](#github-provider)
   - [Resources](#resources)
 
 # terraform-github-organization-cdk
@@ -27,7 +28,7 @@ Initialize a project
 
 Add provider version
 
-```hcl
+```json
 {
   "language": "csharp",
   "app": "dotnet run -p github-organization.csproj",
@@ -46,6 +47,33 @@ Once updated, run `cdktf get` to pull in provider libraries.
 After the provider files have been downloaded, add a reference in your csproj file.
 
 ![reference_provider](docs/images/reference_provider.png)
+
+## Github Provider
+
+Set environment variable `GITHUB_TOKEN` in your terminal.
+
+```csharp
+using System;
+using Constructs;
+using HashiCorp.Cdktf;
+using github;
+
+
+namespace MyCompany.MyApp
+{
+    class MyApp : TerraformStack
+    {
+        public MyApp(Construct scope, string id, string[] args) : base(scope, id)
+        {
+            // define resources here
+            new GithubProvider(this, "github", new GithubProviderConfig
+            {
+                Organization = "cloud-tinkerers"
+            })
+        }
+  ...
+}
+```
 
 ## Resources
 
