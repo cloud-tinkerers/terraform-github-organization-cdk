@@ -1,17 +1,25 @@
 
-namespace GitHubOrganization.Resources
+namespace GitHubOrganization.Resources;
+
+public class RepositoryResources
 {
-
-    public class RepositoryResources : TerraformStack
+    public RepositoryResources(Construct scope, string id)
     {
-        public RepositoryResources(Construct scope, string id)
-        {
+         new Repository(scope, id, new RepositoryConfig
+         {
+             
+                Name = "test-repo",
+                Description = "CDK Test Repository",
+                Visibility = "private",
 
-        }
+                HasIssues = true,
+                HasDownloads = true,
+                HasProjects = true,
 
-        public void CreateRepository()
-        {
-            
-        }
+                AllowMergeCommit = true,
+                AllowAutoMerge = true,
+                AutoInit = true,
+                GitignoreTemplate = "Terraform"
+         });
     }
 }

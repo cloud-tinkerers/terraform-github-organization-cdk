@@ -1,3 +1,5 @@
+using GitHubOrganization.Resources;
+
 namespace GitHubOrganization
 {
     class MyApp : TerraformStack
@@ -9,6 +11,8 @@ namespace GitHubOrganization
             {
                 Organization = "cloud-tinkerers"
             });
+
+            new RepositoryResources(this, "repo");
         }
 
         public static void Main(string[] args)
