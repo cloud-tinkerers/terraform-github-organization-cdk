@@ -10,7 +10,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include=".gen\github\github.csproj" />
+		<ProjectReference Include=".gen\github\github.csproj" />
 	</ItemGroup>
 
 </Project>

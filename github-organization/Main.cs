@@ -10,7 +10,6 @@ namespace MyCompany.MyApp
         public MyApp(Construct scope, string id) : base(scope, id)
         {
             // define resources here
-            //new GitHubProvider(this, "github", new GitHubProviderConfig)
         }
 
         public static void Main(string[] args)
