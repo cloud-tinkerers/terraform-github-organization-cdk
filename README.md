@@ -4,6 +4,7 @@
   - [Create a Repository](#create-a-repository)
     - [Deploy](#deploy)
     - [Destroy](#destroy)
+  - [Outputs](#outputs)
   - [Resources](#resources)
 
 # terraform-github-organization-cdk
@@ -391,6 +392,83 @@ github-organization  ╷
                      ╵
 github-organization
                      Destroy complete! Resources: 1 destroyed.
+```
+
+## Outputs
+
+```hcl
+❯ cdktf deploy
+Warning NETSDK1174: The abbreviation of -p for --project is deprecated. Please use --project.
+
+App synth complete
+
+github-organization  Initializing the backend...
+github-organization  Initializing provider plugins...
+                     - Reusing previous version of hashicorp/github from the dependency lock file
+github-organization  - Using previously-installed hashicorp/github v4.24.1
+github-organization  ╷
+                     │ Warning: Additional provider information from registry
+                     │
+                     │ The remote registry returned warnings for
+                     │ registry.terraform.io/hashicorp/github:
+                     │ - For users on Terraform 0.13 or greater, this provider has moved to
+                     │ integrations/github. Please update your source in required_providers.
+                     ╵
+
+                     Terraform has been successfully initialized!
+
+                     You may now begin working with Terraform. Try running "terraform plan" to see
+                     any changes that are required for your infrastructure. All Terraform commands
+                     should now work.
+
+                     If you ever set or change modules or backend configuration for Terraform,
+                     rerun this command to reinitialize your working directory. If you forget, other
+                     commands will detect it and remind you to do so if necessary.
+github-organization  github_repository.repo (repo): Refreshing state... [id=test-repo]
+github-organization  Terraform used the selected providers to generate the following execution
+                     plan. Resource actions are indicated with the following symbols:
+                     ~ update in-place
+
+                     Terraform will perform the following actions:
+github-organization    # github_repository.repo (repo) will be updated in-place
+                       ~ resource "github_repository" "repo" {
+                     ~ allow_auto_merge       = false -> true
+                     id                     = "test-repo"
+                     name                   = "test-repo"
+                     # (27 unchanged attributes hidden)
+                     }
+
+                     Plan: 0 to add, 1 to change, 0 to destroy.
+
+                     Changes to Outputs:
+                     ~ full_name      = "A string of the form \"orgname/reponame\"." -> "cloud-tinkerers/test-repo"
+                     ~ html_url       = "URL to the repository on the web." -> "https://github.com/cloud-tinkerers/test-repo"
+                     ~ http_clone_url = "URL that can be provided to git clone to clone the repository via HTTPS." -> "https://github.com/cloud-tinkerers/test-repo.git"
+                     ~ ssh_clone_url  = "URL that can be provided to git clone to clone the repository via SSH." -> "git@github.com:cloud-tinkerers/test-repo.git"
+
+                     ─────────────────────────────────────────────────────────────────────────────
+
+                     Saved the plan to: plan
+
+                     To perform exactly these actions, run the following command to apply:
+                     terraform apply "plan"
+github-organization  github_repository.repo (repo): Modifying... [id=test-repo]
+github-organization  github_repository.repo (repo): Modifications complete after 1s [id=test-repo]
+github-organization
+                     Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
+
+                     Outputs:
+
+                     full_name = "cloud-tinkerers/test-repo"
+                     html_url = "https://github.com/cloud-tinkerers/test-repo"
+                     http_clone_url = "https://github.com/cloud-tinkerers/test-repo.git"
+                     ssh_clone_url = "git@github.com:cloud-tinkerers/test-repo.git"
+
+  github-organization
+  full_name = cloud-tinkerers/test-repo
+  html_url = https://github.com/cloud-tinkerers/test-repo
+  http_clone_url = https://github.com/cloud-tinkerers/test-repo.git
+  ssh_clone_url = git@github.com:cloud-tinkerers/test-repo.git
 ```
 
 ## Resources
