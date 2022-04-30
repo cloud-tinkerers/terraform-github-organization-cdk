@@ -471,6 +471,25 @@ github-organization
   ssh_clone_url = git@github.com:cloud-tinkerers/test-repo.git
 ```
 
+```csharp
+...
+        Outputs(scope, "full_name", repo.FullName, "A string of the form \"orgname/reponame\".");
+        Outputs(scope, "html_url", repo.HtmlUrl, "URL to the repository on the web.");
+        Outputs(scope, "ssh_clone_url", repo.SshCloneUrl, "URL that can be provided to git clone to clone the repository via SSH.");
+        Outputs(scope, "http_clone_url", repo.HttpCloneUrl, "URL that can be provided to git clone to clone the repository via HTTPS.");
+
+        return repo;
+    }
+
+    public static TerraformOutput Outputs(Construct scope, string id, string value, string description)
+    {
+        return new TerraformOutput(scope, id, new TerraformOutputConfig
+        {
+            Value = value,
+            Description = description
+        });
+    }
+```
 ## Resources
 
 - [Exploring CDK for Terraform for .NET](https://scottie.is/writing/cdktf-alpha-csharp-infrastructure/)
