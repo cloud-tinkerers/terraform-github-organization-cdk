@@ -3,6 +3,7 @@
   - [Github Provider](#github-provider)
   - [Create a Repository](#create-a-repository)
     - [Deploy](#deploy)
+    - [Destroy](#destroy)
   - [Resources](#resources)
 
 # terraform-github-organization-cdk
@@ -234,6 +235,163 @@ github-organization
 ```
 
 ![Test Repo Creation](docs/images/test_repo.png)
+
+### Destroy
+
+Run `cdktf destroy` to deprovision resources.
+
+```hcl
+❯ cdktf destroy
+Warning NETSDK1174: The abbreviation of -p for --project is deprecated. Please use --project.
+
+
+App synth complete
+
+github-organization  Initializing the backend...
+github-organization  Initializing provider plugins...
+                     - Reusing previous version of hashicorp/github from the dependency lock file
+github-organization  - Using previously-installed hashicorp/github v4.24.1
+github-organization  ╷
+                     │ Warning: Additional provider information from registry
+                     │
+                     │ The remote registry returned warnings for
+                     │ registry.terraform.io/hashicorp/github:
+                     │ - For users on Terraform 0.13 or greater, this provider has moved to
+                     │ integrations/github. Please update your source in required_providers.
+                     ╵
+
+                     Terraform has been successfully initialized!
+
+                     You may now begin working with Terraform. Try running "terraform plan" to see
+                     any changes that are required for your infrastructure. All Terraform commands
+                     should now work.
+
+                     If you ever set or change modules or backend configuration for Terraform,
+                     rerun this command to reinitialize your working directory. If you forget, other
+                     commands will detect it and remind you to do so if necessary.
+github-organization  github_repository.repo (repo): Refreshing state... [id=test-repo]
+github-organization  Terraform used the selected providers to generate the following execution
+                     plan. Resource actions are indicated with the following symbols:
+                     - destroy
+
+                     Terraform will perform the following actions:
+github-organization    # github_repository.repo (repo) will be destroyed
+                       - resource "github_repository" "repo" {
+                     - allow_auto_merge       = false -> null
+                     - allow_merge_commit     = true -> null
+                     - allow_rebase_merge     = true -> null
+                     - allow_squash_merge     = true -> null
+                     - archived               = false -> null
+                     - auto_init              = true -> null
+                     - branches               = [
+                     - {
+                     - name      = "main"
+                     - protected = false
+                     },
+                     ] -> null
+                     - default_branch         = "main" -> null
+                     - delete_branch_on_merge = false -> null
+                     - description            = "CDK Test Repository" -> null
+                     - etag                   = "W/\"d0f32079ae1824aa049b3d0686f5aa4df8d6db2035ff537920d3c27d82dea2f7\"" -> null
+                     - full_name              = "cloud-tinkerers/test-repo" -> null
+                     - git_clone_url          = "git://github.com/cloud-tinkerers/test-repo.git" -> null
+                     - gitignore_template     = "Terraform" -> null
+                     - has_downloads          = true -> null
+                     - has_issues             = true -> null
+                     - has_projects           = true -> null
+                     - has_wiki               = false -> null
+                     - html_url               = "https://github.com/cloud-tinkerers/test-repo" -> null
+                     - http_clone_url         = "https://github.com/cloud-tinkerers/test-repo.git" -> null
+                     - id                     = "test-repo" -> null
+                     - is_template            = false -> null
+                     - name                   = "test-repo" -> null
+                     - node_id                = "R_kgDOHQoDpA" -> null
+                     - private                = true -> null
+                     - repo_id                = 487195556 -> null
+                     - ssh_clone_url          = "git@github.com:cloud-tinkerers/test-repo.git" -> null
+                     - svn_url                = "https://github.com/cloud-tinkerers/test-repo" -> null
+                     - visibility             = "private" -> null
+                     - vulnerability_alerts   = false -> null
+                     }
+
+                     Plan: 0 to add, 0 to change, 1 to destroy.
+                     ╷
+                     │ Warning: "organization": [DEPRECATED] Use owner (or GITHUB_OWNER) instead of organization (or GITHUB_ORGANIZATION)
+                     │
+                     │   with provider["registry.terraform.io/hashicorp/github"],
+                     │   on cdk.tf.json line 15, in provider.github[0]:
+                     │   15:       }
+                     │
+                     ╵
+
+                     ─────────────────────────────────────────────────────────────────────────────
+
+                     Saved the plan to: plan
+
+                     To perform exactly these actions, run the following command to apply:
+                     terraform apply "plan"
+github-organization  Acquiring state lock. This may take a few moments...
+github-organization  github_repository.repo (repo): Refreshing state... [id=test-repo]
+github-organization  Terraform used the selected providers to generate the following execution
+                     plan. Resource actions are indicated with the following symbols:
+                     - destroy
+
+                     Terraform will perform the following actions:
+github-organization    # github_repository.repo (repo) will be destroyed
+                       - resource "github_repository" "repo" {
+                     - allow_auto_merge       = false -> null
+                     - allow_merge_commit     = true -> null
+                     - allow_rebase_merge     = true -> null
+                     - allow_squash_merge     = true -> null
+                     - archived               = false -> null
+                     - auto_init              = true -> null
+                     - branches               = [
+                     - {
+                     - name      = "main"
+                     - protected = false
+                     },
+                     ] -> null
+                     - default_branch         = "main" -> null
+                     - delete_branch_on_merge = false -> null
+                     - description            = "CDK Test Repository" -> null
+                     - etag                   = "W/\"d0f32079ae1824aa049b3d0686f5aa4df8d6db2035ff537920d3c27d82dea2f7\"" -> null
+                     - full_name              = "cloud-tinkerers/test-repo" -> null
+                     - git_clone_url          = "git://github.com/cloud-tinkerers/test-repo.git" -> null
+                     - gitignore_template     = "Terraform" -> null
+                     - has_downloads          = true -> null
+                     - has_issues             = true -> null
+                     - has_projects           = true -> null
+                     - has_wiki               = false -> null
+                     - html_url               = "https://github.com/cloud-tinkerers/test-repo" -> null
+                     - http_clone_url         = "https://github.com/cloud-tinkerers/test-repo.git" -> null
+                     - id                     = "test-repo" -> null
+                     - is_template            = false -> null
+                     - name                   = "test-repo" -> null
+                     - node_id                = "R_kgDOHQoDpA" -> null
+                     - private                = true -> null
+                     - repo_id                = 487195556 -> null
+                     - ssh_clone_url          = "git@github.com:cloud-tinkerers/test-repo.git" -> null
+                     - svn_url                = "https://github.com/cloud-tinkerers/test-repo" -> null
+                     - visibility             = "private" -> null
+                     - vulnerability_alerts   = false -> null
+                     }
+
+                     Plan: 0 to add, 0 to change, 1 to destroy.
+
+github-organization  github_repository.repo (repo): Destroying... [id=test-repo]
+github-organization  github_repository.repo (repo): Destruction complete after 0s
+github-organization  ╷
+                     │ Warning: "organization": [DEPRECATED] Use owner (or GITHUB_OWNER) instead of organization (or GITHUB_ORGANIZATION)
+                     │
+                     │   with provider["registry.terraform.io/hashicorp/github"],
+                     │   on cdk.tf.json line 15, in provider.github[0]:
+                     │   15:       }
+                     │
+                     │ (and one more similar warning elsewhere)
+                     ╵
+github-organization
+                     Destroy complete! Resources: 1 destroyed.
+```
 
 ## Resources
 
