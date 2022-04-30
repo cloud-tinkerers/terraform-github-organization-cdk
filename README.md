@@ -45,7 +45,7 @@ Once updated, run `cdktf get` to pull in provider libraries.
 
 After the provider files have been downloaded, add a reference in your csproj file.
 
-![reference_provider](docs/images/reference_provider.jpg)
+![reference_provider](docs/images/reference_provider.png)
 
 ## Resources
 
