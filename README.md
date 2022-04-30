@@ -14,19 +14,19 @@ CDK version of github organization management in C#
 
 Need NodeJS
 
-Install terraform
-`choco install terraform`
+Install terraform \
+`choco install terraform` \
 `brew install terraform`
 
-Install cdktf-cli
+Install cdktf-cli \
 `npm install -g cdktf-cli`
 
 Depending on the provider you are working with. You might need the CLI for that provider installed.
 
-Login to TF Cloud
+Login to TF Cloud \
 `cdktf login`
 
-Initialize a project
+Initialize a project \
 `cdktf init --template=csharp`
 
 Add provider version
