@@ -39,3 +39,5 @@ jobs:
     - name: cdktf deploy
       run: cdktf deploy
       working-directory: github-organization
+      env:
+        TERRAFORM_CLOUD_TOKEN: ${{ secrets.TF_API_TOKEN }}
