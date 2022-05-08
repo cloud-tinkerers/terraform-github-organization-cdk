@@ -10,6 +10,7 @@ jobs:
   deploy-repo:
     runs-on: ubuntu-latest
     name: Provision Repositories
+    environment: dev
 
     steps:
     - name: checkout
