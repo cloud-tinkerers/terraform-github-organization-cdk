@@ -3,7 +3,7 @@ name: Deploy Github Organization - Terraform CDK
 on:
   push:
     branches:
-      - repository-manage-2
+      - repository-management-2
   workflow_dispatch:
 
 jobs:
