@@ -21,6 +21,10 @@ jobs:
         dotnet-version: '6.0.x'
         include-prerelease: false
 
+    - name: cdktf get
+      run: cdktf get
+      working-directory: github-organization
+
     - name: dotnet build
       run: dotnet build github-organization.csproj
       working-directory: github-organization
