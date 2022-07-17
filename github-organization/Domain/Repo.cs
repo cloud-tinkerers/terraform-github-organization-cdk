@@ -1,2 +1,0 @@
-namespace GitHubOrganization.Domain;
-

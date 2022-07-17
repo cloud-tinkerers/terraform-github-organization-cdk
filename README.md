@@ -13,7 +13,12 @@ CDK version of github organization management in C#
 
 ## Getting Started
 
+### Applications needed for cdktf CLI
+
 Need NodeJS
+
+`choco install nodejs` \
+`brew install nodejs`
 
 Install terraform \
 `choco install terraform` \
@@ -30,7 +35,7 @@ Login to TF Cloud \
 Initialize a project \
 `cdktf init --template=csharp`
 
-Add provider version
+### Add provider version
 
 ```json
 {
@@ -45,6 +50,31 @@ Add provider version
   }
 }
 ```
+
+### Upgrading provider version
+
+
+When updating a provider version there is a current workaround. \
+Navigate to the project folder in the `cdktf.out` directory. \
+`app\github-organization\cdktf.out\stacks\github-organization` \
+In this directory it will be necessary to run a `terraform init -upgrade` in order to update the latest provider version.
+
+
+```json
+{
+  "language": "csharp",
+  "app": "dotnet run -p github-organization.csproj",
+  "projectId": "9a17bdee-303b-4a00-81e5-71a28652ad58",
+  "terraformProviders": ["github@~>4.26.0"],
+  "terraformModules": [],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true",
+    "allowSepCharsInLogicalIds": "true"
+  }
+}
+```
+
+### Pulling provider content
 
 Once updated, run `cdktf get` to pull in provider libraries.
 
