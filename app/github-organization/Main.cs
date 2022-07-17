@@ -9,7 +9,7 @@ namespace GitHubOrganization
             // define resources here
             new GithubProvider(this, "github", new GithubProviderConfig
             {
-                Organization = "cloud-tinkerers"
+                Owner = "cloud-tinkerers"
             });
 
             new RepositoryResources(this, "repo");

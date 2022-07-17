@@ -1,0 +1,61 @@
+name: Deploy Github Organization - Terraform CDK
+
+on:
+  push:
+    branches:
+      - repository-management-2
+  workflow_dispatch:
+
+jobs:
+  deploy-repo:
+    runs-on: ubuntu-latest
+    name: Provision Repositories
+    environment: github
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+
+    - name: 'setup .Net'
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '6.0.x'
+        include-prerelease: false
+
+    - name: Install cdktf
+      run: npm install -g cdktf-cli
+
+    - name: dotnet restore
+      run: dotnet restore github-organization.csproj
+      working-directory: app/github-organization
+
+    - name: cdktf get
+      run: cdktf get
+      working-directory: app/github-organization
+
+    - name: dotnet build
+      run: dotnet build github-organization.csproj
+      working-directory: app/github-organization
+
+    - name: cdktf synth
+      run: cdktf synth # -v -s $GITHUB_TOKEN
+      working-directory: app/github-organization
+      env:
+        TERRAFORM_CLOUD_TOKEN: ${{ secrets.TF_API_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: cdktf deploy
+      run: cdktf deploy --auto-approve # -v -s $GITHUB_TOKEN
+      working-directory: app/github-organization
+      env:
+        TERRAFORM_CLOUD_TOKEN: ${{ secrets.TF_API_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: cdktf destroy
+      run: |
+        sleep 30s
+        cdktf destroy --auto-approve # -v -s $GITHUB_TOKEN
+      working-directory: app/github-organization
+      env:
+        TERRAFORM_CLOUD_TOKEN: ${{ secrets.TF_API_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
