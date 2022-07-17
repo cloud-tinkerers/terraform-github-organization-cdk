@@ -25,12 +25,12 @@ jobs:
     - name: Install cdktf
       run: npm install -g cdktf-cli
 
-    - name: cdktf get
-      run: cdktf get
-      working-directory: app/github-organization
-
     - name: dotnet restore
       run: dotnet restore github-organization.csproj
+      working-directory: app/github-organization
+
+    - name: cdktf get
+      run: cdktf get
       working-directory: app/github-organization
 
     - name: dotnet build
@@ -38,14 +38,23 @@ jobs:
       working-directory: app/github-organization
 
     - name: cdktf synth
-      run: cdktf synth -v -s $GITHUB_TOKEN
+      run: cdktf synth # -v -s $GITHUB_TOKEN
       working-directory: app/github-organization
       env:
         TERRAFORM_CLOUD_TOKEN: ${{ secrets.TF_API_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: cdktf deploy
-      run: cdktf deploy -v -s $GITHUB_TOKEN
+      run: cdktf deploy --auto-approve # -v -s $GITHUB_TOKEN
+      working-directory: app/github-organization
+      env:
+        TERRAFORM_CLOUD_TOKEN: ${{ secrets.TF_API_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: cdktf destroy
+      run: |
+        sleep 30s
+        cdktf destroy --auto-approve # -v -s $GITHUB_TOKEN
       working-directory: app/github-organization
       env:
         TERRAFORM_CLOUD_TOKEN: ${{ secrets.TF_API_TOKEN }}
