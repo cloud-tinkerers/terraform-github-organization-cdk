@@ -1,0 +1,11 @@
+{
+  "language": "csharp",
+  "app": "dotnet run -p github-organization.csproj",
+  "projectId": "9a17bdee-303b-4a00-81e5-71a28652ad58",
+  "terraformProviders": ["github@~>4.26.0"],
+  "terraformModules": [],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true",
+    "allowSepCharsInLogicalIds": "true"
+  }
+}

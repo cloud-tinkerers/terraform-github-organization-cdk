@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "github-organization": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
