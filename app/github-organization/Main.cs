@@ -1,4 +1,5 @@
 using GitHubOrganization.Resources;
+using Microsoft.Azure.Cosmos;
 
 namespace GitHubOrganization
 {
@@ -12,7 +13,7 @@ namespace GitHubOrganization
                 Owner = "cloud-tinkerers"
             });
 
-            new RepositoryResources(this, "repo");
+            new RepositoryResources(this);
         }
 
         public static void Main(string[] args)
@@ -21,7 +22,7 @@ namespace GitHubOrganization
             MyApp stack = new MyApp(app, "github-organization");
             new RemoteBackend(stack, new RemoteBackendProps { Hostname = "app.terraform.io", Organization = "cloud-tinkerers", Workspaces = new NamedRemoteWorkspace("github-organization") });
             app.Synth();
-            Console.WriteLine("App synth complete");
+            Console.WriteLine("App synth complete bucko.");
         }
     }
 }

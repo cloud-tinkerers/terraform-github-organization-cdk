@@ -1,75 +1,38 @@
 
+using GitHubOrganization.Domain;
+using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Linq;
+using System.Threading.Tasks;
+
 namespace GitHubOrganization.Resources;
-
-public class GithubRepository
-{
-    public GithubRepository(string technology, string targetName)
-    {
-        this._technology = technology;
-        this._repoName = targetName;
-
-    }
-    private readonly string[] defaultTechnologies =
-    {
-        "terraform", "csharp", "go", "python", "packer",
-    };
-
-    private string _technology;
-
-    public string Technology
-    {
-        get => _technology;
-        set
-        {
-            if (!defaultTechnologies.Contains(value))
-                throw new ArgumentException($"Technology must be one of the following: {string.Join(',', defaultTechnologies)}.");
-
-            _technology = value;
-        }
-    }
-
-    private string _repoName;
-
-    public string TargetName
-    {
-        get => _repoName;
-        set
-        {
-            if (!Regex.IsMatch(value, "^[a-z0-9\\$]+$"))
-                throw new ArgumentException("Repository naming convention is lowercase alphanumeric and dashes.");
-        }
-    }
-
-    private string _visibility;
-
-    public string Visibility
-    {
-        get => _visibility;
-        set
-        {
-            if (!new[] {"private", "public"}.Contains(value))
-                throw new ArgumentException("Visibility must be public or private.");
-        }
-    }
-
-    //public string Name { get; set; } = $"{_technology}-{_repoName}";
-}
 
 public class RepositoryResources
 {
-    public RepositoryResources(Construct scope, string id)
+    CosmosClient client;
+    Database database;
+    Container container;
+
+    private static readonly string Endpoint = "https://cdkbackenddev.documents.azure.com:443/";
+    private static readonly string PrimaryKey = "SHwSidCx9bOew2RmcSMS4yxgHA9CR3tmizcCmuq1KRQTJrgyAcZ8W6HGUoezQBCdRH95phcY9yEUslymhFvB2g==";
+
+    public RepositoryResources(Construct scope)
     {
-        CreateRepository(scope, id);
+        var results = ReadDatabase().GetAwaiter().GetResult();
+
+        foreach (var result in results)
+        {
+            CreateRepository(scope, result);
+        }
     }
 
-    public Repository CreateRepository(Construct scope, string id)
+    public Repository CreateRepository(Construct scope, GitHubRepository repository)
     {
-        var repo = new Repository(scope, id, new RepositoryConfig
+        var repo = new Repository(scope, repository.Id, new RepositoryConfig
         {
 
-            Name = "test-repo",
+            Name = repository.TargetName,
             Description = "CDK Test Repository",
-            Visibility = "private",
+            Visibility = repository.Visibility,
 
             HasIssues = true,
             HasDownloads = true,
@@ -86,11 +49,25 @@ public class RepositoryResources
             GitignoreTemplate = "VisualStudio"
         });
 
-        Helper.Outputs(scope, "full_name", repo.FullName, "A string of the form \"orgname/reponame\".");
-        Helper.Outputs(scope, "html_url", repo.HtmlUrl, "URL to the repository on the web.");
-        Helper.Outputs(scope, "ssh_clone_url", repo.SshCloneUrl, "URL that can be provided to git clone to clone the repository via SSH.");
-        Helper.Outputs(scope, "http_clone_url", repo.HttpCloneUrl, "URL that can be provided to git clone to clone the repository via HTTPS.");
+        Helper.Outputs(scope, $"{repository.Id}_full_name", repo.FullName, "A string of the form \"orgname/reponame\".");
+        Helper.Outputs(scope, $"{repository.Id}_html_url", repo.HtmlUrl, "URL to the repository on the web.");
+        Helper.Outputs(scope, $"{repository.Id}_ssh_clone_url", repo.SshCloneUrl, "URL that can be provided to git clone to clone the repository via SSH.");
+        Helper.Outputs(scope, $"{repository.Id}_http_clone_url", repo.HttpCloneUrl, "URL that can be provided to git clone to clone the repository via HTTPS.");
 
         return repo;
+    }
+
+    public async Task<FeedResponse<GitHubRepository>> ReadDatabase()
+    {
+        client = new CosmosClient(Endpoint, PrimaryKey, new CosmosClientOptions
+        {
+            ConnectionMode = ConnectionMode.Gateway
+        });
+        database = await client.CreateDatabaseIfNotExistsAsync("cdkbackend");
+        container = await database.CreateContainerIfNotExistsAsync("repositories", "/targetname");
+
+        var query = container.GetItemLinqQueryable<GitHubRepository>();
+        var iterator = query.ToFeedIterator();
+        return await iterator.ReadNextAsync();
     }
 }
